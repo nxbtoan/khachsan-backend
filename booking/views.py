@@ -4,6 +4,7 @@ import hashlib
 import base64
 import json
 from calendar import monthrange
+from .serializers import BookingSerializer
 
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
@@ -12,6 +13,7 @@ from django.conf import settings
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.generics import ListAPIView
 
 from .models import Room, Booking
 
@@ -217,3 +219,15 @@ class WebhookOrderPaidAPIView(APIView):
                 {"error": f"Lỗi xử lý logic webhook: {e}"}, 
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+        
+class AllBookingsAPIView(ListAPIView):
+    """
+    API endpoint (chỉ để test) lấy tất cả các booking
+    trong CSDL.
+
+    GET /api/all-bookings/
+    """
+    # queryset = Booking.objects.all() # Lấy TẤT CẢ
+    queryset = Booking.objects.filter(status='confirmed') # Chỉ lấy cái đã thanh toán
+
+    serializer_class = BookingSerializer

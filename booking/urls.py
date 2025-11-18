@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import AvailabilityAPIView, WebhookOrderPaidAPIView
+from .views import AvailabilityAPIView, WebhookOrderPaidAPIView, AllBookingsAPIView
 
 urlpatterns = [
     # Định nghĩa URL cho API
@@ -8,4 +8,7 @@ urlpatterns = [
 
     # POST /api/webhooks/order_paid/
     path('webhooks/order_paid/', WebhookOrderPaidAPIView.as_view(), name='api-webhook-order-paid'),
+
+    # GET /api/all-bookings/
+    path('all-bookings/', AllBookingsAPIView.as_view(), name='api-all-bookings'),
 ]
